@@ -124,3 +124,22 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+.center-text {
+    text-align: center;
+}
+
+div p {
+    margin: 5px 0; /* Reduces the vertical spacing between elements */
+    padding: 0; /* Removes unnecessary internal spacing */
+    font-size: 16px; /* Optional: Adjust font size for readability */
+}
+
+a {
+    text-decoration: none; /* Clean link style */
+    color: #007BFF; /* Adds a professional link color */
+}
+
+a:hover {
+    text-decoration: underline; /* Optional: Add underline on hover */
+}
