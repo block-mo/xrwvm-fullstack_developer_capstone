@@ -143,3 +143,34 @@ a {
 a:hover {
     text-decoration: underline; /* Optional: Add underline on hover */
 }
+
+.p {
+    color:#007BFF;
+    margin: auto;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-width: 600px;
+    overflow: auto;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 5px 0;
+}
+
+.divider-container {
+  display: flex;
+  align-items: center;
+}
+
+.divider-container::before {
+  content: '';
+  display: block;
+  width: 3px; /* Width of the vertical line */
+  height: 80%; /* Height of the line */
+  background-color: #615e5e; /* Color of the line */
+  box-shadow: 1px 0 5px rgba(128, 121, 121, 0.9); /* Shadow effect */
+  margin: 0 20px; /* Spacing between the line and the elements */
+}
