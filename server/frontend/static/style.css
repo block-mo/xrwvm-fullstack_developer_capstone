@@ -11,6 +11,7 @@ img{
   margin-right:5%;
   margin-top: 1%;
   margin-bottom: 1%;
+  overflow: auto;
 }
 
 .row{
@@ -144,20 +145,9 @@ a:hover {
     text-decoration: underline; /* Optional: Add underline on hover */
 }
 
-.p {
+.contact-info {
     color:#007BFF;
-    margin: auto;
-    width: 100%;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    max-width: 600px;
-    overflow: auto;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    margin: 5px 0;
+    padding: 20px;
 }
 
 .divider-container {
