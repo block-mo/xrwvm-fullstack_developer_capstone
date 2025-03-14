@@ -58,17 +58,44 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
 
 // Express route to fetch all dealerships
 app.get('/fetchDealers', async (req, res) => {
-//Write your code here
+try {
+    // Fetch all dealerships from the database
+    const dealerships = await Dealerships.find({});
+    // Send the dealerships as a response
+    res.status(200).json(dealerships);
+} catch (error) {
+    // Handle any errors that occur during the fetch
+    res.status(500).json({error: 'An error occured while fetching dealerships'});
+}
 });
 
 // Express route to fetch Dealers by a particular state
 app.get('/fetchDealers/:state', async (req, res) => {
-//Write your code here
+    try {
+        // Extract the state parameter from the request
+        const state = req.params.state;
+        // Fetch dealerships from the database that match the given state
+        const dealerships = await Dealerships.find({ state: state });
+        // Send the dealerships as a response
+        res.status(200).json(dealerships);
+    } catch (error) {
+        // Handle any errors that occur during the fetch
+        res.status(500).json({ error: 'An error occurred while fetching dealerships by state' });
+    }
 });
 
 // Express route to fetch dealer by a particular id
 app.get('/fetchDealer/:id', async (req, res) => {
-//Write your code here
+    try {
+        const dealerId = req.params.id;
+        const dealer = await Dealerships.find({ id: dealerId }); // Assuming 'Dealerships' is Mongoose model
+        if (!dealer) {
+            return res.status(404).send({ message: 'Dealer not found' });
+        }
+        res.status(200).send(dealer);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching dealer', error: error.message });
+    }
 });
 
 //Express route to insert review
