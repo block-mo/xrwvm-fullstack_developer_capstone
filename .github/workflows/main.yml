@@ -45,3 +45,12 @@ jobs:
           # This command finds all JavaScript files recursively and runs JSHint on them
           find ./server/database -name "*.js" -exec jshint {} +
           echo "Linted all the js files successfully"
+      - name: Install your linters here
+        run: npm install eslint # Example for installing ESLint
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          github_token: ${{ secrets.github_token }}
+          eslint: true
+          eslint_auto_fix: true
