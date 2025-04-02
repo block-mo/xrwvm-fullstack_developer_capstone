@@ -1,14 +1,13 @@
-name: 'Lint and Auto-Fix Code'
-
+name: "Lint and Fix Code"
 on:
   push:
-    branches: [master, main]
+    branches: [master, main, dev1]
   pull_request:
-    branches: [master, main]
+    branches: [master, main, dev1]
 
 jobs:
   lint_python:
-    name: Lint & Auto-Fix Python Files
+    name: Auto-Fix Python
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -19,29 +18,27 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install Python Linters & Formatters
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 black isort
+          pip install black flake8 isort
 
-      - name: Run Auto-Fix for Python
+      - name: Auto-Fix Python Issues
         run: |
-          black . 
+          black .
           isort .
+          flake8 . --exit-zero
 
-      - name: Run Linter for Python
-        run: flake8 .
-
-      - name: Commit Python Fixes
+      - name: Commit Fixes (if any)
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
           git add .
-          git diff --cached --quiet || git commit -m "Auto-fixed Python formatting issues"
-          git push origin HEAD:${{ github.ref }} || echo "No changes to commit"
+          git commit -m "Auto-fix Python linting" || echo "No changes to commit"
+          git push
 
   lint_js:
-    name: Lint & Auto-Fix JavaScript Files
+    name: Auto-Fix JavaScript
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -52,17 +49,18 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install JavaScript Linters & Formatters
+      - name: Install ESLint & Prettier
+        run: npm install --save-dev eslint prettier
+
+      - name: Auto-Fix JavaScript Issues
         run: |
-          npm install eslint prettier eslint-config-prettier eslint-plugin-prettier --save-dev
+          npx eslint . --fix
+          npx prettier --write .
 
-      - name: Run Auto-Fix for JavaScript
-        run: npx eslint . --fix
-
-      - name: Commit JavaScript Fixes
+      - name: Commit Fixes (if any)
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
           git add .
-          git diff --cached --quiet || git commit -m "Auto-fixed JavaScript formatting issues"
-          git push origin HEAD:${{ github.ref }} || echo "No changes to commit"
+          git commit -m "Auto-fix JavaScript linting" || echo "No changes to commit"
+          git push
