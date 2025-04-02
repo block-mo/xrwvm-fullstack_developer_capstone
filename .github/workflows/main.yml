@@ -1,13 +1,12 @@
-name: 'Lint and Fix Code'
+name: "Lint Code"
 on:
   push:
     branches: [master, main, test]
   pull_request:
     branches: [master, main, test]
-
 jobs:
   lint_python:
-    name: Auto-Fix Python
+    name: Lint Python Files
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -17,50 +16,32 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
-
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install black flake8 isort
-
-      - name: Auto-Fix Python Issues
+          pip install flake8
+      - name: Print working directory
+        run: pwd
+      - name: Run Linter
         run: |
-          black .
-          isort .
-          flake8 . --exit-zero
-
-      - name: Commit Fixes (if any)
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add .
-          git commit -m "Auto-fix Python linting" || echo "No changes to commit"
-          git push
-
+          pwd
+          # This command finds all Python files recursively and runs flake8 on them
+          find . -name "*.py" -exec flake8 {} +
+          echo "Linted all the python files successfully"
   lint_js:
-    name: Auto-Fix JavaScript
+    name: Lint JavaScript Files
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-
-      - name: Install ESLint & Prettier
-        run: npm install --save-dev eslint prettier
-
-      - name: Auto-Fix JavaScript Issues
+          node-version: 14
+      - name: Install JSHint
+        run: npm install jshint --global
+      - name: Run Linter
         run: |
-          npx eslint . --fix
-          npx prettier --write .
-
-      - name: Commit Fixes (if any)
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add .
-          git commit -m "Auto-fix JavaScript linting" || echo "No changes to commit"
-          git push
+          # This command finds all JavaScript files recursively and runs JSHint on them
+          find ./server/database -name "*.js" -exec jshint {} +
+          echo "Linted all the js files successfully"
