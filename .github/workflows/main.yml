@@ -1,9 +1,9 @@
 name: 'Lint and Fix Code'
 on:
   push:
-    branches: [master, main]
+    branches: [master, main, test]
   pull_request:
-    branches: [master, main]
+    branches: [master, main, test]
 
 jobs:
   lint_python:
